@@ -1,0 +1,85 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block body %}
+
+
+<div class="top-nav container px-5 d-flex mt-4">
+    <input id="searchTxt" class="rounded-pill form-control mr-sm-2" type="search" placeholder="Search Your Note Here..."
+        aria-label="Search">
+    <button class="btn add-note-btn rounded-pill btn-sm" data-toggle="modal" data-target="#exampleModal"><i
+            class="fas fa-pen"></i> Add</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/address" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="">Title</label>
+                        <input type="text" name="title" class="form-control" id="" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Address Line 1</label>
+                        <input type="text" name="address1" class="form-control" id="" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Address Line 2</label>
+                        <input type="text" name="address2" class="form-control" id="" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="">City</label>
+                        <input type="text" name="city" class="form-control" id="" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Zip</label>
+                        <input type="number" name="zip" class="form-control" id="" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="">State</label>
+                        <input type="text" name="state" class="form-control" id="" placeholder="">
+                    </div>
+
+                    <div class="text-right">
+                        <button type="reset" class="btn btn-outline-dark rounded-pill btn-sm"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-sm add-note-btn rounded-pill">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container p-5 notes">
+    <div class="row mt-3">
+        {% for i in n %}
+        <div class="col-md-4 my-2 m-0 noteCard">
+            <div class="card color rounded ">
+                <div class="card-body">
+                    <p class="h5 card-title font-weight-bold">{{i.title}}</p>
+                    <p class="card-text m-0 my-2">{{i.address1}}</p>
+                    <p class="card-text m-0 my-2">{{i.address2}}</p>
+                    <p class="card-text m-0 my-2">{{i.city}} - {{i.zip}}</p>
+                    <p class="card-text m-0 my-2">{{i.state}}</p>
+                </div>
+                <div class="update-delete d-flex">
+                    <a href="" class="btn m-0 p-0"><i class="mx-2 fas fa-pen"></i></a>
+                    <a href="/delNote/{{i.id}}" class="btn m-0 p-0"><i class="mx-2 fas fa-trash"></i></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock body %}
